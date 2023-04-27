@@ -64,9 +64,17 @@ db.question.hasMany(db.comment,{
 });
 db.comment.belongsTo(db.question);
 
+db.user.hasMany(db.comment,{
+    foreignKey: 'userId'
+
+});
+db.comment.belongsTo(db.user);
+
+
+
 module.exports = db
 
-db.sequelize.sync({ force: true })
+db.sequelize.sync({ force: false })
     .then(() => {
         console.log("yes re-sync");
     })

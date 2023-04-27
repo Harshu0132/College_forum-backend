@@ -30,19 +30,11 @@ db.itemNo = require('./itemNo')(sequelize, DataTypes);
 db.cart = require('./cart')(sequelize, DataTypes);
 db.user = require('./user')(sequelize, DataTypes);
 db.cafeDetails = require('./cafeDetails')(sequelize, Sequelize, DataTypes);
-db.question = require('./question')(sequelize, Sequelize, DataTypes);
 
 db.user.hasMany(db.cart, {
     foreignKey: 'userId'
 })
 db.cart.belongsTo(db.user)
-
-db.user.hasMany(db.question, {
-    foreignKey: 'userId'
-})
-db.question.belongsTo(db.user, {
-    foreignKey: 'userId'
-})
 
 db.user.hasMany(db.cafeDetails, {
     foreignKey: 'userId'
@@ -55,18 +47,29 @@ db.orderDetails = require('./orderDetails')(sequelize, DataTypes);
 
 db.orderDetails = require('./orderDetails')(sequelize, DataTypes);
 
+db.question = require('./question')(sequelize, Sequelize, DataTypes);
+
+db.comment = require('./comments')(sequelize, Sequelize, DataTypes);
+
+db.user.hasMany(db.question, {
+    foreignKey: 'userId'
+})
+
+db.question.belongsTo(db.user)
+
+
+db.question.hasMany(db.comment,{
+    foreignKey: 'questionId'
+
+});
+db.comment.belongsTo(db.question);
 
 module.exports = db
 
-db.sequelize.sync({ force: false })
+db.sequelize.sync({ force: true })
     .then(() => {
         console.log("yes re-sync");
     })
     .catch()
 
 
-// db.question.addScope['getDepartment', {
-//     where: {
-//         department: "Artificial Intelligence & Data Science"
-//     }
-// }]

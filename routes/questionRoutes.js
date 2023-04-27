@@ -19,4 +19,6 @@ router.post('/getAllElectronicsQuestionDetails',verifyToken,questionController.g
 
 router.post('/getAllMechanicalQuestionDetails',verifyToken,questionController.getAllMechanicalQuestionDetails)
 
+router.get('/getDetailsByQuestionId/:id',verifyToken,questionController.getDetailsByQuestionId)
+
 module.exports = router

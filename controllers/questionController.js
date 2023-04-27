@@ -11,9 +11,9 @@ const addQuestion = async (req, res) => {
     try {
         console.log(req.body);
         console.log(req.file);
-        if (req.file == undefined) {
-            return res.send(`You must select a proper attachment.`);
-        }
+        // if (req.file == undefined) {
+        //     return res.send(`You must select a proper attachment.`);
+        // }
         let obj = req.body
         var createObj = new Question();
 
@@ -149,6 +149,30 @@ const getAllMechanicalQuestionDetails = async (req, res) => {
     }
 }
 
+const getDetailsByQuestionId = async (req, res) =>{
+    let id = req.params.id
+    let data = Question.findOne({
+        where: {
+            id: id,
+        },
+        include: [{
+            model: User,
+            attributes: ['userName', 'file'],
+        }]
+    })
+    console.log(data);
+
+    data.then(function (result) {
+        // console.log(result.dataValues);
+        // const arr = result.map(questionDetails)
+        res.status(200).send({data: result?.dataValues});
+    })
+    // function questionDetails(qd) {
+    //     return { data: qd.dataValues }
+    // }
+
+}
+
 
 
 module.exports = {
@@ -157,5 +181,6 @@ module.exports = {
     getAllCseQuestionDetails,
     getAllElectronicsQuestionDetails,
     getAllMechanicalQuestionDetails,
-    getAllCivilQuestionDetails
+    getAllCivilQuestionDetails,
+    getDetailsByQuestionId
 }

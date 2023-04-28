@@ -20,6 +20,12 @@ module.exports = (sequelize, DataTypes) => {
         attachment: {
             type: DataTypes.BLOB("long"),
         },
+        commentCounter: {
+            type: DataTypes.INTEGER,
+        },
+        likeCounter: {
+            type: DataTypes.INTEGER,
+        },
         userId: {
             type: DataTypes.INTEGER,
             references: {

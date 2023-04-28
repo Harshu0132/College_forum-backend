@@ -21,4 +21,6 @@ router.post('/getAllMechanicalQuestionDetails',verifyToken,questionController.ge
 
 router.get('/getDetailsByQuestionId/:id',verifyToken,questionController.getDetailsByQuestionId)
 
+router.get('/commentCounter/:id',verifyToken,questionController.commentCounter)
+
 module.exports = router

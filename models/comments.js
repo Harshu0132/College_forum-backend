@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: true,
         },
+       
         questionId: {
             type: DataTypes.INTEGER,
             references: {
@@ -16,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
                 key: 'id'
             }
         },
+
         userId:{
             type: DataTypes.INTEGER,
             references: {

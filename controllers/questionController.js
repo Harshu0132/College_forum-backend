@@ -149,7 +149,7 @@ const getAllMechanicalQuestionDetails = async (req, res) => {
     }
 }
 
-const getDetailsByQuestionId = async (req, res) =>{
+const getDetailsByQuestionId = async (req, res) => {
     let id = req.params.id
     let data = Question.findOne({
         where: {
@@ -163,15 +163,42 @@ const getDetailsByQuestionId = async (req, res) =>{
     console.log(data);
 
     data.then(function (result) {
-        // console.log(result.dataValues);
-        // const arr = result.map(questionDetails)
-        res.status(200).send({data: result?.dataValues});
+        res.status(200).send({ data: result?.dataValues });
     })
-    // function questionDetails(qd) {
-    //     return { data: qd.dataValues }
-    // }
+
 
 }
+const commentCounter = async (req, res) => {
+    let id = req.params.id
+    let data = await Question.findOne({
+        where: {
+            id: id,
+        },
+    })
+    if (data?.dataValues?.commentCounter) {
+        const updatedData = await Question.update({ commentCounter: data?.dataValues?.commentCounter + 1 }, {
+            where: {
+                id: id
+            }
+        })
+        res.send({msg: "comment done successfully !!"})
+    } else {
+        const updatedData = await Question.update({ commentCounter: 1 }, {
+            where: {
+                id: id
+            }
+        })
+        res.send({msg: "comment done successfully !!"})
+
+    }
+
+    // data.then(function (result) {
+    //     res.status(200).send({ data: result?.dataValues });
+    // })
+
+
+}
+
 
 
 
@@ -182,5 +209,6 @@ module.exports = {
     getAllElectronicsQuestionDetails,
     getAllMechanicalQuestionDetails,
     getAllCivilQuestionDetails,
-    getDetailsByQuestionId
+    getDetailsByQuestionId,
+    commentCounter
 }

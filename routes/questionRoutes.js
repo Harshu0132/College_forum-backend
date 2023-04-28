@@ -11,7 +11,7 @@ router.post('/addQuestion/:id',upload.single("file"),verifyToken,questionControl
 
 router.post('/getAllAiAndDsQuestionDetails',verifyToken,questionController.getAllAiAndDsQuestionDetails)
 
-router.post('/getAllCseQuestionDetails',verifyToken,questionController.getAllCseQuestionDetails)
+router.post('/getAllCseQuestionDetails/:id',verifyToken,questionController.getAllCseQuestionDetails)
 
 router.post('/getAllCivilQuestionDetails',verifyToken,questionController.getAllCivilQuestionDetails)
 
@@ -22,5 +22,12 @@ router.post('/getAllMechanicalQuestionDetails',verifyToken,questionController.ge
 router.get('/getDetailsByQuestionId/:id',verifyToken,questionController.getDetailsByQuestionId)
 
 router.get('/commentCounter/:id',verifyToken,questionController.commentCounter)
+
+router.get('/likeCounter/:id',verifyToken,questionController.likeCounter)
+
+router.get('/unLikeCounter/:id',verifyToken,questionController.unLikeCounter)
+
+router.get('/getAllLikesByQuestionId/:id',verifyToken,questionController.getAllLikesByQuestionId)
+
 
 module.exports = router

@@ -50,6 +50,8 @@ db.orderDetails = require('./orderDetails')(sequelize, DataTypes);
 db.question = require('./question')(sequelize, Sequelize, DataTypes);
 
 db.comment = require('./comments')(sequelize, Sequelize, DataTypes);
+db.like = require('./likeDetails')(sequelize, Sequelize, DataTypes);
+
 
 db.user.hasMany(db.question, {
     foreignKey: 'userId'
@@ -57,20 +59,30 @@ db.user.hasMany(db.question, {
 
 db.question.belongsTo(db.user)
 
-
-db.question.hasMany(db.comment,{
+// comment association
+db.question.hasMany(db.comment, {
     foreignKey: 'questionId'
 
 });
 db.comment.belongsTo(db.question);
 
-db.user.hasMany(db.comment,{
+db.user.hasMany(db.comment, {
     foreignKey: 'userId'
 
 });
 db.comment.belongsTo(db.user);
 
+// like association
+db.user.hasMany(db.like, {
+    foreignKey: 'userId'
+})
+db.like.belongsTo(db.user)
 
+db.question.hasMany(db.like, {
+    foreignKey: 'questionId'
+
+});
+db.like.belongsTo(db.question);
 
 module.exports = db
 

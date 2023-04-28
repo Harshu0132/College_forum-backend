@@ -2,9 +2,11 @@ const fs = require("fs");
 
 const db = require('../models/index');
 const jwt = require('jsonwebtoken');
+const { Op } = require('sequelize');
 
 const Question = db.question
 const User = db.user
+const Like = db.like
 
 const addQuestion = async (req, res) => {
 
@@ -70,10 +72,12 @@ const getAllCseQuestionDetails = async (req, res) => {
         where: {
             department: req.body.department,
         },
-        include: [{
-            model: User,
-            attributes: ['userName', 'file'],
-        }]
+        include: [
+            {
+                model: User,
+                attributes: ['userName', 'file'],
+            },
+        ]
     })
 
 
@@ -181,26 +185,71 @@ const commentCounter = async (req, res) => {
                 id: id
             }
         })
-        res.send({msg: "comment done successfully !!"})
+        res.send({ msg: "comment done successfully !!" })
     } else {
         const updatedData = await Question.update({ commentCounter: 1 }, {
             where: {
                 id: id
             }
         })
-        res.send({msg: "comment done successfully !!"})
+        res.send({ msg: "comment done successfully !!" })
 
     }
+}
+const likeCounter = async (req, res) => {
+    let id = req.params.id
+    let data = await Question.findOne({
+        where: {
+            id: id,
+        },
+    })
+    if (data?.dataValues?.likeCounter) {
+        const updatedData = await Question.update({ likeCounter: data?.dataValues?.likeCounter + 1 }, {
+            where: {
+                id: id
+            }
+        })
+        res.send({ msg: "You have successfully like the question !!" })
+    } else {
+        const updatedData = await Question.update({ likeCounter: 1 }, {
+            where: {
+                id: id
+            }
+        })
+        res.send({ msg: "You have successfully like the question !!" })
 
-    // data.then(function (result) {
-    //     res.status(200).send({ data: result?.dataValues });
-    // })
+    }
+}
 
-
+const unLikeCounter = async (req, res) => {
+    let id = req.params.id
+    let data = await Question.findOne({
+        where: {
+            id: id,
+        },
+    })
+    if (data?.dataValues?.likeCounter) {
+        const updatedData = await Question.update({ likeCounter: data?.dataValues?.likeCounter - 1 }, {
+            where: {
+                id: id
+            }
+        })
+        res.send({ msg: "You have successfully unlike the question !!" })
+    }
 }
 
 
-
+const getAllLikesByQuestionId = async (req, res) => {
+    let data = await Question.findAll({
+        where: {
+            id: req.params.id
+        },
+    })
+    const info = data.map(d => {
+        return d.dataValues
+    })
+    res.send(info);
+}
 
 module.exports = {
     addQuestion,
@@ -210,5 +259,8 @@ module.exports = {
     getAllMechanicalQuestionDetails,
     getAllCivilQuestionDetails,
     getDetailsByQuestionId,
-    commentCounter
+    commentCounter,
+    likeCounter,
+    unLikeCounter,
+    getAllLikesByQuestionId,
 }

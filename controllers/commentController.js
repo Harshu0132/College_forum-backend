@@ -39,8 +39,6 @@ const getAllCommentsByQuestionId = async (req, res) => {
     function questionDetails(c) {
         return { data: c.dataValues }
     }
-
-
 }
 
 

@@ -8,7 +8,7 @@ const router = require('express').Router();
 
 router.post('/isLike/:id',verifyToken,likeController.isLike)
 
-router.get('/getAllLikeStatusUserId/:id',verifyToken,likeController.getAllLikeStatusUserId)
+router.post('/getLikeStatusUserId/:id',verifyToken,likeController.getLikeStatusUserId)
 
 
 module.exports = router

@@ -50,6 +50,7 @@ db.orderDetails = require('./orderDetails')(sequelize, DataTypes);
 db.question = require('./question')(sequelize, Sequelize, DataTypes);
 
 db.comment = require('./comments')(sequelize, Sequelize, DataTypes);
+
 db.like = require('./likeDetails')(sequelize, Sequelize, DataTypes);
 
 

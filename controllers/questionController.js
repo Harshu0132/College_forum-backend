@@ -51,10 +51,16 @@ const getAllAiAndDsQuestionDetails = async (req, res) => {
         where: {
             department: req.body.department,
         },
-        include: [{
-            model: User,
-            attributes: ['userName', 'file'],
-        }]
+        include: [
+            {
+                model: User,
+                attributes: ['userName', 'file'],
+            },
+            {
+                model: Like,
+                attributes: ['like', 'userId'],
+            },
+        ]
     })
 
 
@@ -77,6 +83,10 @@ const getAllCseQuestionDetails = async (req, res) => {
                 model: User,
                 attributes: ['userName', 'file'],
             },
+            {
+                model: Like,
+                attributes: ['like', 'userId'],
+            },
         ]
     })
 
@@ -95,10 +105,16 @@ const getAllCivilQuestionDetails = async (req, res) => {
         where: {
             department: req.body.department,
         },
-        include: [{
-            model: User,
-            attributes: ['userName', 'file'],
-        }]
+        include: [
+            {
+                model: User,
+                attributes: ['userName', 'file'],
+            },
+            {
+                model: Like,
+                attributes: ['like', 'userId'],
+            },
+        ]
     })
 
 
@@ -116,10 +132,16 @@ const getAllElectronicsQuestionDetails = async (req, res) => {
         where: {
             department: req.body.department,
         },
-        include: [{
-            model: User,
-            attributes: ['userName', 'file'],
-        }]
+        include: [
+            {
+                model: User,
+                attributes: ['userName', 'file'],
+            },
+            {
+                model: Like,
+                attributes: ['like', 'userId'],
+            },
+        ]
     })
 
 
@@ -137,10 +159,16 @@ const getAllMechanicalQuestionDetails = async (req, res) => {
         where: {
             department: req.body.department,
         },
-        include: [{
-            model: User,
-            attributes: ['userName', 'file'],
-        }]
+        include: [
+            {
+                model: User,
+                attributes: ['userName', 'file'],
+            },
+            {
+                model: Like,
+                attributes: ['like', 'userId'],
+            },
+        ]
     })
 
 
@@ -197,47 +225,31 @@ const commentCounter = async (req, res) => {
     }
 }
 const likeCounter = async (req, res) => {
+    let like = req.body.like
     let id = req.params.id
     let data = await Question.findOne({
         where: {
             id: id,
         },
     })
-    if (data?.dataValues?.likeCounter) {
+    if (like) {
         const updatedData = await Question.update({ likeCounter: data?.dataValues?.likeCounter + 1 }, {
             where: {
                 id: id
             }
         })
         res.send({ msg: "You have successfully like the question !!" })
-    } else {
-        const updatedData = await Question.update({ likeCounter: 1 }, {
-            where: {
-                id: id
-            }
-        })
-        res.send({ msg: "You have successfully like the question !!" })
-
     }
-}
-
-const unLikeCounter = async (req, res) => {
-    let id = req.params.id
-    let data = await Question.findOne({
-        where: {
-            id: id,
-        },
-    })
-    if (data?.dataValues?.likeCounter) {
+    else {
         const updatedData = await Question.update({ likeCounter: data?.dataValues?.likeCounter - 1 }, {
             where: {
                 id: id
             }
         })
         res.send({ msg: "You have successfully unlike the question !!" })
+
     }
 }
-
 
 const getAllLikesByQuestionId = async (req, res) => {
     let data = await Question.findAll({
@@ -261,6 +273,5 @@ module.exports = {
     getDetailsByQuestionId,
     commentCounter,
     likeCounter,
-    unLikeCounter,
     getAllLikesByQuestionId,
 }

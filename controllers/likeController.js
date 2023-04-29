@@ -1,14 +1,13 @@
 const db = require('../models/index');
-const {Op} =  require ('sequelize')
+const { Op } = require('sequelize')
 
 const Like = db.like
 const User = db.user
 
 
 const isLike = async (req, res) => {
-    let findData = await Like.findAll({
+    let findData = await Like.findOne({
         where: {
-
             [Op.and]: {
                 userId: req.body.userId,
                 questionId: req.params.id
@@ -17,7 +16,7 @@ const isLike = async (req, res) => {
         }
     })
 
-    if (findData == '' || findData == []) {
+    if (findData == null) {
         let info = {
             like: req.body.like,
             userId: req.body.userId,
@@ -25,43 +24,32 @@ const isLike = async (req, res) => {
         }
         let data = await Like.create(info)
         res.send(data);
+
     } else {
-        const isLike = findData.map((f) => {
-            return f.dataValues.like
+        console.log(req.body.like);
+      
+        const data = await Like.update({ like: req.body.like }, {
+            where: {
+                questionId: req.params.id
+            }
         })
-        console.log(isLike);
-        // console.log(req.params.id);
-        if (isLike == [false]) {
-            console.log(isLike);
-            const data = await Like.update({ like: req.body.like }, {
-                where: {
-                    id: req.params.id
-                }
-            })
-            res.send(data);
-        }
-        else {
-            console.log(isLike);
-            const data = await Like.update({ like: req.body.like }, {
-                where: {
-                    id: req.params.id
-                }
-            })
-            res.send(data);
-        }
-    }
+        res.send(data);
+    } 
+
 }
 
 
 
-const getAllLikeStatusUserId = async (req, res) => {
+const getLikeStatusUserId = async (req, res) => {
     let data = await Like.findOne({
         where: {
-            userId: req.params.id
+            [Op.and]: {
+                userId: req.body.userId,
+                questionId: req.params.id
+            }
         },
     })
-
-    res.send(data);
+    res.send({ like: data?.dataValues?.like })
 }
 const getAllLikesByQuestionId = async (req, res) => {
     let data = await Like.findOne({
@@ -78,7 +66,7 @@ const getAllLikesByQuestionId = async (req, res) => {
 
 module.exports = {
     isLike,
-    getAllLikeStatusUserId,
+    getLikeStatusUserId,
     getAllLikesByQuestionId
 
 }

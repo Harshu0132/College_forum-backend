@@ -23,9 +23,7 @@ router.get('/getDetailsByQuestionId/:id',verifyToken,questionController.getDetai
 
 router.get('/commentCounter/:id',verifyToken,questionController.commentCounter)
 
-router.get('/likeCounter/:id',verifyToken,questionController.likeCounter)
-
-router.get('/unLikeCounter/:id',verifyToken,questionController.unLikeCounter)
+router.post('/likeCounter/:id',verifyToken,questionController.likeCounter)
 
 router.get('/getAllLikesByQuestionId/:id',verifyToken,questionController.getAllLikesByQuestionId)
 

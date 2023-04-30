@@ -20,11 +20,12 @@ module.exports = (sequelize, DataTypes) => {
         contactNo: {
             type: DataTypes.BIGINT,
             allowNull: true,
+            unique: true
+
         },
         city: {
             type: DataTypes.STRING,
             allowNull: true,
-            unique: true
         },
         pinCode: {
             type: DataTypes.STRING,
@@ -43,9 +44,12 @@ module.exports = (sequelize, DataTypes) => {
         },
         email: {
             type: DataTypes.STRING,
+            unique: true
+
         },
         username: {
             type: DataTypes.STRING,
+            unique: true
         },
         password: {
             type: DataTypes.STRING,
@@ -53,7 +57,7 @@ module.exports = (sequelize, DataTypes) => {
         file: {
             type: DataTypes.BLOB("long"),
         },
-        role:{
+        role: {
             type: DataTypes.STRING,
 
         }

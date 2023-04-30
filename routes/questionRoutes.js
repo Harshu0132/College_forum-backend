@@ -29,5 +29,7 @@ router.get('/getAllLikesByQuestionId/:id',verifyToken,questionController.getAllL
 
 router.delete('/blockUserQuestionByQuestionId/:id',verifyToken,questionController.blockUserQuestionByQuestionId)
 
+router.get('/getAllQuestionDetails',verifyToken,questionController.getAllQuestionDetails)
+
 
 module.exports = router

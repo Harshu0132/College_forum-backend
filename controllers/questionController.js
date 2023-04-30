@@ -101,6 +101,22 @@ const getAllCseQuestionDetails = async (req, res) => {
         return { data: qd.dataValues }
     }
 }
+
+const getAllQuestionDetails = async (req, res) => {
+    let data = await Question.findAll({
+        include: [
+            {
+                model: User,
+                attributes: ['userName', 'file'],
+            },
+        ]
+    })
+    const info = data.map(d => {
+        return d.dataValues
+    })
+    res.send(info)
+}
+
 const getAllCivilQuestionDetails = async (req, res) => {
     console.log(req.body.department);
     let data = Question.findAll({
@@ -202,6 +218,9 @@ const getDetailsByQuestionId = async (req, res) => {
 
 
 }
+
+
+
 const commentCounter = async (req, res) => {
     let id = req.params.id
     let data = await Question.findOne({
@@ -305,5 +324,6 @@ module.exports = {
     commentCounter,
     likeCounter,
     getAllLikesByQuestionId,
-    blockUserQuestionByQuestionId
+    blockUserQuestionByQuestionId,
+    getAllQuestionDetails
 }

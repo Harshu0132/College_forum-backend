@@ -12,6 +12,8 @@ router.post('/login', registerController.login)
 
 router.get('/getUserNameByUserId/:id', registerController.getUserNameByUserId)
 
+router.post('/getDetailsByDesignation', registerController.getDetailsByDesignation)
+
 // router.get('/signUp',registerController.signUp)
 
 router.get('/sendUserDetails', userDetails)

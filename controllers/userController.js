@@ -30,7 +30,7 @@ const register = async (req, res) => {
         }
         const result = await createObj.save();
         res.send(result)
-        
+
     } catch (error) {
         console.log(error);
         return res.send(`Error when trying upload images: ${error}`);
@@ -48,7 +48,7 @@ const register = async (req, res) => {
 //     try {
 //         let data = await User.create(info)
 //         if(data){
-    
+
 //             res.status(200).json({ data })
 //         }
 //     }
@@ -79,7 +79,7 @@ const login = async (req, res) => {
                 const token = jwt.sign(payload, process.env.JWT_SECRET)
 
                 res.status(200).json({ token })
-                
+
             } else {
                 res.status(400).json({
                     msg: "plz.. enter valid password"
@@ -102,8 +102,19 @@ const login = async (req, res) => {
     }
 }
 
+const getUserNameByUserId = async (req, res) => {
+    const data = await User.findOne({
+        where: {
+            id: req.params.id
+        }
+    })
+    res.send({username: data.dataValues.username})
+}
+
+
 module.exports = {
     register,
     login,
+    getUserNameByUserId
     // signUp
 }

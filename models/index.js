@@ -53,6 +53,8 @@ db.comment = require('./comments')(sequelize, Sequelize, DataTypes);
 
 db.like = require('./likeDetails')(sequelize, Sequelize, DataTypes);
 
+db.report = require('./reportDetails')(sequelize, Sequelize, DataTypes);
+
 
 db.user.hasMany(db.question, {
     foreignKey: 'userId'
@@ -84,6 +86,12 @@ db.question.hasMany(db.like, {
 
 });
 db.like.belongsTo(db.question);
+
+// report association
+db.user.hasMany(db.report, {
+    foreignKey: 'userId'
+})
+db.report.belongsTo(db.user)
 
 module.exports = db
 

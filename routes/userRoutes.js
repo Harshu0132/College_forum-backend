@@ -6,13 +6,15 @@ const upload = require("../middleware/upload");
 
 const router = require('express').Router();
 
-router.post('/register',upload.single("file"),registerController.register)
+router.post('/register', upload.single("file"), registerController.register)
 
-router.post('/login',registerController.login)
+router.post('/login', registerController.login)
+
+router.get('/getUserNameByUserId/:id', registerController.getUserNameByUserId)
 
 // router.get('/signUp',registerController.signUp)
 
-router.get('/sendUserDetails',userDetails)
+router.get('/sendUserDetails', userDetails)
 
 
 

@@ -27,5 +27,7 @@ router.post('/likeCounter/:id',verifyToken,questionController.likeCounter)
 
 router.get('/getAllLikesByQuestionId/:id',verifyToken,questionController.getAllLikesByQuestionId)
 
+router.delete('/blockUserQuestionByQuestionId/:id',verifyToken,questionController.blockUserQuestionByQuestionId)
+
 
 module.exports = router

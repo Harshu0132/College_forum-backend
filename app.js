@@ -46,5 +46,8 @@ app.use('/api', CommentRoutes)
 const LikeRoutes = require('./routes/likeRoutes');
 app.use('/api', LikeRoutes)
 
+const ReportRoutes = require('./routes/reportRoutes');
+app.use('/api', ReportRoutes)
+
 
 

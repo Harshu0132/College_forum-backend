@@ -7,6 +7,8 @@ const { Op } = require('sequelize');
 const Question = db.question
 const User = db.user
 const Like = db.like
+const Report = db.report
+const Comment = db.comment
 
 const addQuestion = async (req, res) => {
 
@@ -262,6 +264,35 @@ const getAllLikesByQuestionId = async (req, res) => {
     })
     res.send(info);
 }
+const blockUserQuestionByQuestionId = async (req, res) => {
+    let destroyReport = await Report.destroy({
+        where: {
+            questionId: req.params.id
+        }
+    })
+
+    let destroyLike = await Like.destroy({
+        where: {
+            questionId: req.params.id
+        }
+    })
+    let destroyComment = await Comment.destroy({
+        where: {
+            questionId: req.params.id
+        }
+    })
+    let destroyQuestion = await Question.destroy({
+        where: {
+            id: req.params.id
+        }
+    })
+
+    if (destroyQuestion) {
+        res.send({
+            msg: "question has been blocked successfully !!"
+        })
+    }
+}
 
 module.exports = {
     addQuestion,
@@ -274,4 +305,5 @@ module.exports = {
     commentCounter,
     likeCounter,
     getAllLikesByQuestionId,
+    blockUserQuestionByQuestionId
 }

@@ -94,10 +94,47 @@ const getDetailsByDesignation = async (req, res) => {
         }
     })
 
-    let info = data.map(d=>{
+    let info = data.map(d => {
         return d?.dataValues
     })
     res.send(info);
+}
+const getAllUserDetails = async (req, res) => {
+    const data = await User.findOne({
+        where: {
+            id: req.params.id
+        }
+    })
+    res.send(data.dataValues);
+}
+
+
+
+const updateUser = async (req, res) => {
+    let id = req.params.id
+    let obj = req.body
+    var createObj = new User();
+    for (let i = Object.keys(obj).length - 1; i >= 0; i--) {
+        let key = Object.keys(obj)[i];
+        if (obj[key] != "null") {
+            createObj[key] = obj[key];
+        } else {
+            createObj[key] = null;
+        }
+    }
+
+    if (req.file) {
+        createObj.file = fs.readFileSync(__basedir + "/assets/uploads/" + req.file.filename);
+    }
+
+    const newObj = createObj.dataValues
+    // console.log();
+    const data = await User.update(newObj, {
+        where: {
+            id: id
+        }
+    })
+    res.send(data);
 }
 
 
@@ -105,6 +142,8 @@ module.exports = {
     register,
     login,
     getUserNameByUserId,
-    getDetailsByDesignation
+    getDetailsByDesignation,
+    getAllUserDetails,
+    updateUser
     // signUp
 }

@@ -2,6 +2,8 @@ const fs = require("fs");
 
 const db = require('../models/index');
 const jwt = require('jsonwebtoken');
+const { Op } = require('sequelize')
+
 
 const Report = db.report
 const User = db.user
@@ -16,8 +18,28 @@ const addReport = async (req, res) => {
     }
     console.log(info);
 
-    let data = await Report.create(info)
-    res.send(data);
+    let alreadyReport = await Report.findOne({
+        where: {
+
+            [Op.and]: {
+                userId: req.body.userId,
+                questionId: req.params.id
+            }
+        }
+    })
+
+    console.log(alreadyReport);
+    if (alreadyReport) {
+        res.send({
+            msg: false
+        })
+    }
+    else {
+        let data = await Report.create(info)
+        res.send(
+            { msg: true }
+        );
+    }
 
 }
 const getAllReportDetails = async (req, res) => {

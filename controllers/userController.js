@@ -29,9 +29,18 @@ const register = async (req, res) => {
             createObj.file = fs.readFileSync(__basedir + "/assets/uploads/" + req.file.filename);
         }
 
-        // console.log("createObj",createObj);
-
         const result = await createObj.save();
+
+        // Delete the file from the upload directory
+        if (req.file) {
+            fs.unlink(__basedir + "/assets/uploads/" + req.file.filename, (err) => {
+                if (err) {
+                    console.error(err)
+                    return
+                }
+                console.log("File deleted successfully")
+            })
+        }
         res.send(result)
 
     } catch (error) {
@@ -134,7 +143,20 @@ const updateUser = async (req, res) => {
             id: id
         }
     })
+
+    // Delete the file from the upload directory
+    if (req.file) {
+        fs.unlink(__basedir + "/assets/uploads/" + req.file.filename, (err) => {
+            if (err) {
+                console.error(err)
+                return
+            }
+            console.log("File deleted successfully")
+        })
+    }
+
     res.send(data);
+
 }
 
 

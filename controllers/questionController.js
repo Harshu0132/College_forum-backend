@@ -37,6 +37,19 @@ const addQuestion = async (req, res) => {
             createObj.attachment = fs.readFileSync(__basedir + "/assets/uploads/" + req.file.filename);
         }
         const result = await createObj.save();
+
+        // Delete the file from the upload directory
+        if (req.file) {
+            fs.unlink(__basedir + "/assets/uploads/" + req.file.filename, (err) => {
+                if (err) {
+                    console.error(err)
+                    return
+                }
+                console.log("File deleted successfully")
+            })
+        }
+
+
         res.send(result)
 
     } catch (error) {

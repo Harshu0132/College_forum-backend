@@ -3,6 +3,8 @@ const fs = require("fs");
 const db = require('../models/index');
 const jwt = require('jsonwebtoken');
 const { Op } = require('sequelize');
+const sharp = require('sharp');
+
 
 const Question = db.question
 const User = db.user
@@ -33,9 +35,21 @@ const addQuestion = async (req, res) => {
             createObj.userId = req.params.id
         }
 
-        if (req.file) {
-            createObj.attachment = fs.readFileSync(__basedir + "/assets/uploads/" + req.file.filename);
+        try {
+            // if (req.file) {
+            const buffer = await sharp(req.file.path)
+                .resize({ width: 800 }) // set the width to 800 pixels
+                .jpeg({ quality: 50 }) // set the JPEG quality to 50%
+                .toBuffer();
+
+            createObj.attachment = buffer;
+
+            // createObj.file = fs.readFileSync(__basedir + "/assets/uploads/" + req.file.filename);
+            // }
+        } catch (error) {
+            console.log(error);
         }
+
         const result = await createObj.save();
 
         // Delete the file from the upload directory

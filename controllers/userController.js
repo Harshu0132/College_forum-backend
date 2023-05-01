@@ -2,6 +2,7 @@ const fs = require("fs");
 
 const db = require('../models/index');
 const jwt = require('jsonwebtoken');
+const sharp = require('sharp');
 
 const User = db.user
 
@@ -10,9 +11,9 @@ const register = async (req, res) => {
     try {
         // console.log(req.body);
         // console.log(req.file);
-        if (req.file == undefined) {
-            return res.send(`You must select a file.`);
-        }
+        // if (req.file == undefined) {
+        //     return res.send(`You must select a file.`);
+        // }
         let obj = req.body
         var createObj = new User();
 
@@ -24,23 +25,30 @@ const register = async (req, res) => {
                 createObj[key] = null;
             }
         }
-
-        if (req.file) {
-            createObj.file = fs.readFileSync(__basedir + "/assets/uploads/" + req.file.filename);
-        }
-
+        // try {
+        //     if (req.file) {
+        //         console.log(req.file);
+        //         createObj.file = await resizeAndCompressImage(req.file.filename)
+        //         console.log(createObj.file);
+        //         // createObj.file = fs.readFileSync(__basedir + "/assets/uploads/" + req.file.filename);
+        //     }
+        // } catch (error) {
+        //     console.log(error);
+        // }
+      
+        // console.log(createObj);
         const result = await createObj.save();
 
         // Delete the file from the upload directory
-        if (req.file) {
-            fs.unlink(__basedir + "/assets/uploads/" + req.file.filename, (err) => {
-                if (err) {
-                    console.error(err)
-                    return
-                }
-                console.log("File deleted successfully")
-            })
-        }
+        // if (req.file) {
+        //     fs.unlink(__basedir + "/assets/uploads/" + req.file.filename, (err) => {
+        //         if (err) {
+        //             console.error(err)
+        //             return
+        //         }
+        //         console.log("File deleted successfully")
+        //     })
+        // }
         res.send(result)
 
     } catch (error) {
@@ -87,6 +95,15 @@ const login = async (req, res) => {
         }
     }
 }
+
+const resizeAndCompressImage = async (buffer) => {
+    const resizedImageBuffer = await sharp(buffer)
+        .resize({ width: 800 })
+        .jpeg({ quality: 80 })
+        .toBuffer();
+
+    return resizedImageBuffer;
+};
 
 const getUserNameByUserId = async (req, res) => {
     const data = await User.findOne({

@@ -25,20 +25,20 @@ const register = async (req, res) => {
                 createObj[key] = null;
             }
         }
-        // try {
-        //     // if (req.file) {
-        //     const buffer = await sharp(req.file.path)
-        //         .resize({ width: 800 }) // set the width to 800 pixels
-        //         .jpeg({ quality: 50 }) // set the JPEG quality to 50%
-        //         .toBuffer();
+        try {
+            if (req.file) {
+            const buffer = await sharp(req.file.path)
+                .resize({ width: 800 }) // set the width to 800 pixels
+                .jpeg({ quality: 50 }) // set the JPEG quality to 50%
+                .toBuffer();
 
-        //     createObj.file = buffer;
+            createObj.file = buffer;
 
-        //     // createObj.file = fs.readFileSync(__basedir + "/assets/uploads/" + req.file.filename);
-        //     // }
-        // } catch (error) {
-        //     console.log(error);
-        // }
+            // createObj.file = fs.readFileSync(__basedir + "/assets/uploads/" + req.file.filename);
+            }
+        } catch (error) {
+            console.log(error);
+        }
 
         // console.log(createObj);
         const result = await createObj.save();

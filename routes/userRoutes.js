@@ -20,6 +20,8 @@ router.post('/getDetailsByDesignation', registerController.getDetailsByDesignati
 
 router.get('/getAllUserDetails/:id', registerController.getAllUserDetails)
 
+router.get('/getAllUser', registerController.getAllUser)
+
 // router.get('/signUp',registerController.signUp)
 
 router.get('/sendUserDetails', userDetails)

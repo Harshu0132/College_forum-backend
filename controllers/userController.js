@@ -110,6 +110,16 @@ const getUserNameByUserId = async (req, res) => {
     })
     res.send({ username: data.dataValues.username })
 }
+
+
+const getAllUser = async (req, res) => {
+    const data = await User.findAll({})
+    const result = data.map(d=>{
+        return d.dataValues
+    })
+    res.send(result)
+}
+
 const getDetailsByDesignation = async (req, res) => {
     const data = await User.findAll({
         where: {
@@ -191,6 +201,7 @@ module.exports = {
     getUserNameByUserId,
     getDetailsByDesignation,
     getAllUserDetails,
-    updateUser
+    updateUser,
+    getAllUser
     // signUp
 }

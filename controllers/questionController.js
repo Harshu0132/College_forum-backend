@@ -310,6 +310,7 @@ const getAllLikesByQuestionId = async (req, res) => {
     })
     res.send(info);
 }
+
 const blockUserQuestionByQuestionId = async (req, res) => {
     let destroyReport = await Report.destroy({
         where: {
@@ -340,6 +341,38 @@ const blockUserQuestionByQuestionId = async (req, res) => {
     }
 }
 
+const deleteQuestionByQuestionId = async (req, res) => {
+    let destroyReport = await Report.destroy({
+        where: {
+            questionId: req.params.id
+        }
+    })
+
+    let destroyLike = await Like.destroy({
+        where: {
+            questionId: req.params.id
+        }
+    })
+
+    let destroyComment = await Comment.destroy({
+        where: {
+            questionId: req.params.id
+        }
+    })
+    
+    let destroyQuestion = await Question.destroy({
+        where: {
+            id: req.params.id
+        }
+    })
+
+    if (destroyQuestion) {
+        res.send({
+            msg: "question has been deleted successfully !!"
+        })
+    }
+}
+
 module.exports = {
     addQuestion,
     getAllAiAndDsQuestionDetails,
@@ -352,5 +385,6 @@ module.exports = {
     likeCounter,
     getAllLikesByQuestionId,
     blockUserQuestionByQuestionId,
-    getAllQuestionDetails
+    getAllQuestionDetails,
+    deleteQuestionByQuestionId
 }

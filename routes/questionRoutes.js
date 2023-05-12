@@ -29,6 +29,8 @@ router.get('/getAllLikesByQuestionId/:id',verifyToken,questionController.getAllL
 
 router.delete('/blockUserQuestionByQuestionId/:id',verifyToken,questionController.blockUserQuestionByQuestionId)
 
+router.delete('/deleteQuestionByQuestionId/:id',verifyToken,questionController.deleteQuestionByQuestionId)
+
 router.get('/getAllQuestionDetails',verifyToken,questionController.getAllQuestionDetails)
 
 
